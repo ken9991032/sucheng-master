@@ -1,3 +1,4 @@
+
 export interface RootMapping {
   key: string;
   root: string;
@@ -11,7 +12,13 @@ export interface WordEntry {
   hint?: string; // e.g., "頭+尾" breakdown
 }
 
-export type GameMode = 'MENU' | 'REFERENCE' | 'GAME_ROOTS' | 'GAME_WORDS' | 'PRACTICE' | 'GAME_OVER';
+export interface LeaderboardEntry {
+  name: string;
+  score: number;
+  date: string;
+}
+
+export type GameMode = 'MENU' | 'REFERENCE' | 'GAME_ROOTS' | 'GAME_WORDS' | 'PRACTICE' | 'GAME_OVER' | 'LEADERBOARD';
 
 export type MonsterType = 'SLIME' | 'BAT' | 'GHOST' | 'BOSS';
 
@@ -26,6 +33,7 @@ export interface FallingItem {
   currentHp: number; // Decreases as user types correct keys
   isTargeted: boolean; // Is the player currently locked onto this monster?
   isHit?: boolean; // For death animation state
+  isBossMinion?: boolean; // Is this spawned by a boss?
 }
 
 export interface Projectile {

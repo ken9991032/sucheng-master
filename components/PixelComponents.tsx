@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { MonsterType } from '../types';
 
@@ -36,6 +37,33 @@ export const PixelButton: React.FC<{
   );
 };
 
+export const PixelInput: React.FC<{
+  value: string;
+  onChange: (val: string) => void;
+  placeholder?: string;
+  maxLength?: number;
+  className?: string;
+}> = ({ value, onChange, placeholder, maxLength = 10, className = '' }) => {
+  return (
+    <input
+      type="text"
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      placeholder={placeholder}
+      maxLength={maxLength}
+      className={`
+        px-4 py-3 
+        border-4 border-gray-700
+        bg-black text-yellow-400
+        font-bold text-lg font-['Press_Start_2P']
+        focus:outline-none focus:border-blue-500
+        placeholder-gray-600
+        ${className}
+      `}
+    />
+  );
+};
+
 export const PixelCard: React.FC<{
   children: React.ReactNode;
   className?: string;
@@ -67,6 +95,26 @@ export const PixelBadge: React.FC<{
     <span className="text-lg font-bold font-['DotGothic16']">{value}</span>
   </div>
 );
+
+export const BossHealthBar: React.FC<{ current: number, max: number }> = ({ current, max }) => {
+  const percentage = Math.max(0, Math.min(100, (current / max) * 100));
+  return (
+    <div className="w-full max-w-2xl mx-auto mb-4 relative">
+      <div className="flex justify-between text-yellow-500 font-bold mb-1 px-1 text-sm">
+        <span>BOSS</span>
+        <span>{current}/{max}</span>
+      </div>
+      <div className="h-6 bg-black border-2 border-white relative overflow-hidden">
+        <div 
+          className="h-full bg-red-600 transition-all duration-300 ease-out"
+          style={{ width: `${percentage}%` }}
+        />
+        {/* Striped effect */}
+        <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.1)_25%,rgba(255,255,255,0.1)_50%,transparent_50%,transparent_75%,rgba(255,255,255,0.1)_75%,rgba(255,255,255,0.1)_100%)] bg-[length:20px_20px] opacity-50"></div>
+      </div>
+    </div>
+  );
+};
 
 // --- Game Assets ---
 
@@ -121,13 +169,12 @@ export const MonsterSprite: React.FC<{ type: MonsterType, isHit: boolean }> = ({
       );
     case 'BOSS':
       return (
-        <svg width="80" height="80" viewBox="0 0 24 24" className={`${hitClass}`}>
-          <path d="M4 8 L8 4 L16 4 L20 8 V20 H4 Z" fill="#991b1b" />
-          <rect x="8" y="10" width="2" height="2" fill="yellow" />
-          <rect x="14" y="10" width="2" height="2" fill="yellow" />
-          <path d="M8 16 H16 V18 H8 Z" fill="black" />
-          <path d="M2 10 H6 V12 H2 Z" fill="gray" />
-          <path d="M18 10 H22 V12 H18 Z" fill="gray" />
+        <svg width="128" height="128" viewBox="0 0 24 24" className={`${hitClass} animate-pulse`} style={{ filter: 'drop-shadow(0px 0px 10px red)' }}>
+          <path d="M2 8 L8 2 L16 2 L22 8 V16 L16 22 H8 L2 16 Z" fill="#450a0a" />
+          <path d="M6 10 L8 8 L10 10 L8 12 Z" fill="red" />
+          <path d="M14 10 L16 8 L18 10 L16 12 Z" fill="red" />
+          <path d="M8 16 Q12 20 16 16" stroke="black" strokeWidth="2" fill="none" />
+          <rect x="11" y="6" width="2" height="4" fill="#facc15" />
         </svg>
       );
     default:

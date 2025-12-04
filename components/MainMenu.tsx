@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { PixelButton, PixelCard } from './PixelComponents';
 
@@ -6,9 +7,10 @@ interface MainMenuProps {
   onStartWordGame: () => void;
   onStartPractice: () => void;
   onOpenReference: () => void;
+  onOpenLeaderboard: () => void;
 }
 
-const MainMenu: React.FC<MainMenuProps> = ({ onStartRootGame, onStartWordGame, onStartPractice, onOpenReference }) => {
+const MainMenu: React.FC<MainMenuProps> = ({ onStartRootGame, onStartWordGame, onStartPractice, onOpenReference, onOpenLeaderboard }) => {
   return (
     <div className="h-full flex flex-col items-center justify-center space-y-8 animate-fade-in p-4">
       <div className="text-center space-y-4">
@@ -39,11 +41,14 @@ const MainMenu: React.FC<MainMenuProps> = ({ onStartRootGame, onStartWordGame, o
           隕石拆碼戰 (拆碼挑戰)
         </PixelButton>
 
-        <div className="h-4"></div>
-
-        <PixelButton onClick={onOpenReference} color="secondary" className="w-full">
-          速成寶典 (查詢表)
-        </PixelButton>
+        <div className="flex gap-2">
+          <PixelButton onClick={onOpenLeaderboard} color="secondary" className="flex-1">
+            英雄榜
+          </PixelButton>
+          <PixelButton onClick={onOpenReference} color="secondary" className="flex-1">
+            寶典
+          </PixelButton>
+        </div>
       </PixelCard>
 
       <div className="text-xs text-gray-500 mt-8">

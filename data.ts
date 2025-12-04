@@ -1,3 +1,4 @@
+
 import { RootMapping, WordEntry } from './types';
 
 export const ROOT_DATA: RootMapping[] = [
@@ -56,7 +57,7 @@ export const WORD_DATA: WordEntry[] = [
 
   // Page 3: Questions
   { char: '嗎', code: 'RF', category: 'Question', hint: '口火' },
-  { char: '什麼', code: 'OJ', category: 'Question', hint: '人十' }, // Simplified for game
+  { char: '什麼', code: 'OJ', category: 'Question', hint: '人十' },
   { char: '為', code: 'BF', category: 'Question', hint: '月火' },
   { char: '吧', code: 'RU', category: 'Question', hint: '口山' },
   { char: '呢', code: 'RP', category: 'Question', hint: '口心' },
@@ -87,8 +88,30 @@ export const WORD_DATA: WordEntry[] = [
   { char: '龜', code: 'NX', category: 'Difficult', hint: '弓難' },
   { char: '謝', code: 'YI', category: 'Difficult', hint: '卜戈' },
   { char: '灣', code: 'EN', category: 'Difficult', hint: '水弓' },
-  { char: '餐', code: 'EV', category: 'Difficult', hint: '水女' },
+  { char: '餐', code: 'YV', category: 'Difficult', hint: '卜女' }, // Fixed from EV
   
+  // New Words - School & Daily Life
+  { char: '學', code: 'HD', category: 'School', hint: '竹木' },
+  { char: '校', code: 'DK', category: 'School', hint: '木大' },
+  { char: '師', code: 'LB', category: 'School', hint: '中月' },
+  { char: '生', code: 'HM', category: 'School', hint: '竹一' },
+  { char: '書', code: 'LA', category: 'School', hint: '中日' },
+  { char: '筆', code: 'HQ', category: 'School', hint: '竹手' },
+  { char: '課', code: 'YD', category: 'School', hint: '卜木' },
+  { char: '文', code: 'YK', category: 'School', hint: '卜大' },
+  { char: '英', code: 'TK', category: 'School', hint: '廿大' },
+  { char: '數', code: 'FK', category: 'School', hint: '火大' },
+  
+  // New Words - Food & Nature
+  { char: '水', code: 'E', category: 'Nature', hint: '水' },
+  { char: '果', code: 'WD', category: 'Food', hint: '田木' },
+  { char: '飯', code: 'OE', category: 'Food', hint: '人水' },
+  { char: '麵', code: 'JW', category: 'Food', hint: '十田' },
+  { char: '貓', code: 'BT', category: 'Nature', hint: '月廿' },
+  { char: '狗', code: 'KR', category: 'Nature', hint: '大口' },
+  { char: '花', code: 'TP', category: 'Nature', hint: '廿心' },
+  { char: '草', code: 'TJ', category: 'Nature', hint: '廿十' },
+
   // Punctuation
   { char: '，', code: 'ZA', category: 'Punct', hint: 'ZA' },
   { char: '。', code: 'ZB', category: 'Punct', hint: 'ZB' },

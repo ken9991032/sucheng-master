@@ -1,18 +1,45 @@
+
 import React, { useState } from 'react';
 import MainMenu from './components/MainMenu';
 import GameLoop from './components/GameLoop';
 import Reference from './components/Reference';
 import PracticeMode from './components/PracticeMode';
-import { PixelButton, PixelCard } from './components/PixelComponents';
-import { GameMode } from './types';
+import Leaderboard from './components/Leaderboard';
+import { PixelButton, PixelCard, PixelInput } from './components/PixelComponents';
+import { GameMode, LeaderboardEntry } from './types';
 
 const App: React.FC = () => {
   const [gameState, setGameState] = useState<GameMode>('MENU');
   const [lastScore, setLastScore] = useState(0);
+  const [playerName, setPlayerName] = useState('');
+  const [scoreSubmitted, setScoreSubmitted] = useState(false);
 
   const handleGameOver = (score: number) => {
     setLastScore(score);
+    setScoreSubmitted(false);
     setGameState('GAME_OVER');
+  };
+
+  const handleSubmitScore = () => {
+    if (!playerName.trim()) return;
+    
+    const newEntry: LeaderboardEntry = {
+      name: playerName.trim(),
+      score: lastScore,
+      date: new Date().toISOString()
+    };
+
+    const saved = localStorage.getItem('sucheng_leaderboard');
+    let entries: LeaderboardEntry[] = saved ? JSON.parse(saved) : [];
+    entries.push(newEntry);
+    
+    // Keep top 50 locally
+    entries.sort((a, b) => b.score - a.score);
+    entries = entries.slice(0, 50);
+    
+    localStorage.setItem('sucheng_leaderboard', JSON.stringify(entries));
+    setScoreSubmitted(true);
+    setGameState('LEADERBOARD');
   };
 
   return (
@@ -26,6 +53,7 @@ const App: React.FC = () => {
             onStartRootGame={() => setGameState('GAME_ROOTS')}
             onStartWordGame={() => setGameState('GAME_WORDS')}
             onOpenReference={() => setGameState('REFERENCE')}
+            onOpenLeaderboard={() => setGameState('LEADERBOARD')}
           />
         )}
 
@@ -47,6 +75,10 @@ const App: React.FC = () => {
           </div>
         )}
 
+        {gameState === 'LEADERBOARD' && (
+          <Leaderboard onBack={() => setGameState('MENU')} />
+        )}
+
         {gameState === 'GAME_OVER' && (
           <div className="absolute inset-0 bg-black/80 flex items-center justify-center z-50">
             <PixelCard className="text-center p-12 space-y-6 max-w-lg w-full animate-bounce-in">
@@ -57,11 +89,31 @@ const App: React.FC = () => {
                 <div className="text-4xl text-blue-800 font-bold">{lastScore}</div>
               </div>
 
-              <div className="flex gap-4 justify-center mt-8">
-                <PixelButton onClick={() => setGameState('MENU')} color="secondary">
+              {!scoreSubmitted && lastScore > 0 ? (
+                <div className="space-y-4">
+                  <p className="text-yellow-400 text-sm">輸入名字以儲存分數：</p>
+                  <PixelInput 
+                    value={playerName} 
+                    onChange={setPlayerName} 
+                    placeholder="你的名字"
+                    className="w-full text-center"
+                    maxLength={8}
+                  />
+                  <PixelButton onClick={handleSubmitScore} color="accent" className="w-full py-2">
+                    提交分數
+                  </PixelButton>
+                </div>
+              ) : (
+                <div className="text-green-500 text-sm">
+                  {lastScore > 0 ? "分數已儲存！" : "繼續加油！"}
+                </div>
+              )}
+
+              <div className="flex gap-4 justify-center mt-8 border-t border-gray-700 pt-6">
+                <PixelButton onClick={() => setGameState('MENU')} color="secondary" className="flex-1 text-sm">
                   主選單
                 </PixelButton>
-                <PixelButton onClick={() => setGameState('GAME_WORDS')} color="primary">
+                <PixelButton onClick={() => setGameState('GAME_WORDS')} color="primary" className="flex-1 text-sm">
                   再玩一次
                 </PixelButton>
               </div>
